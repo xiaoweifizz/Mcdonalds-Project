@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<!--
+2013-9-30: Created.
+-->
+<svg>
+<metadata>
+Created by iconfont
+</metadata>
+<defs>
+
+<font id="iconfont" horiz-adv-x="1024" >
+  <font-face
+    font-family="iconfont"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1024"
+    ascent="896"
+    descent="-128"
+  />
+    <missing-glyph />
+    
+    <glyph glyph-name="maidanglao" unicode="&#58886;" d="M715.872 745.603c83.935 0 151.898-353.506 151.898-789.59h121.443c0 469.62-122.324 850.294-273.34 850.294-85.798 0-162.395-114.377-212.49-293.297-50.174 178.92-126.749 293.297-212.58 293.297-151.039 0-273.385-380.675-273.385-850.296h121.521c0 436.085 67.963 789.59 151.875 789.59 83.789 0 151.82-326.279 151.82-728.84h121.43c-0.01 402.561 67.986 728.842 151.808 728.842z"  horiz-adv-x="1024" />
+
+    
+
+
+  </font>
+</defs></svg>
