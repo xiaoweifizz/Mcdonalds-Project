@@ -93,6 +93,7 @@
                   <div class='tips'>
                     <i class='iconfont icon-shandian'>
                       <span>能量约红薯3个</span>
+
                     </i>
                   </div>
                 </a>
@@ -104,11 +105,11 @@
         <!-- 进入加入购物车 页面 -->
         <div class="product-result-box" v-show='isGocar'>
           <ul>
-            <li v-for='v in selectArr'>
+            <li v-for='(v,idx) in selectArr'>
 
               <div class="check-box">
-                <input type="checkbox" v-model="v.isCheck" class="check" :id="v._id">
-                <label @click='check' :class="v.isCheck ? 'iconfont icon-gou' :''" :for='v._id'></label>
+                <input type="checkbox" class="check" :id="v._id">
+                <label @click='check(idx)' :class="v.isBorder ? 'iconfont icon-gou' :''" :for='v._id'></label>
               </div>
               <div class="pic">
                 <img :src="v.src">
@@ -149,7 +150,7 @@
               <i class='iconfont icon-cha'></i>
               <span>清除当前选中结果</span>
             </button>
-            <button class='add-more'>
+            <button class='add-more' @click='goSelect'>
               <i class='iconfont icon-jian'></i>
               <span>添加更多美味</span>
             </button>
@@ -158,6 +159,9 @@
       </div>
     </div>
 
+    <div class="tips-wrap">
+      <p></p>
+    </div>
   </div>
 
 </template>
@@ -169,6 +173,7 @@ export default {
   data() {
     return {
       isSelect: 0, //选中多少件商品
+      checkNum: 0,
       isShowDetails: false, //控制详情页出现或隐藏
       isShowKinds: true, //控制种类选择页面出现或隐藏
       isBlock: false, //控制查看选中商品按钮是否出现
@@ -314,12 +319,12 @@ export default {
 
           //当重新选择种类的时候 要判断是否已经选择了已选中商品数组中的商品
 
-          self.goodsArr.forEach(function(item){
-              var b=self.selectArr.filter(function(a){
-                return a._id === item._id
-              })
-            console.log(b)
-          })
+          self.goodsArr.forEach(function(item) {
+            var b = self.selectArr.filter(function(a) {
+              return a._id === item._id;
+            });
+            // console.log(b);
+          });
         }
       });
     },
@@ -331,28 +336,17 @@ export default {
     changeBorder(g) {
       var self = this;
       g.isBorder = !g.isBorder;
-      if ((g.isBorder = g.isBorder)) {
-        //点击商品的时候数量+1
-        self.isSelect = self.isSelect + 1;
-
+      if (g.isBorder == g.isBorder) {
         if (g.isBorder) {
+          self.isSelect = self.isSelect + 1;
           self.selectArr.push(g);
         } else {
+          self.isSelect = self.isSelect - 1;
           var index = self.selectArr.indexOf(g);
           if (index >= 0) {
             self.selectArr.splice(index, 1);
           }
         }
-        console.log(self.selectArr);
-      } else {
-        self.selectArr.forEach(element => {
-          element.isBorder === false;
-        });
-        self.selectArr = self.selectArr.filter(function(ele) {
-          return ele.isBorder === true;
-        });
-        //点击商品的时候数量-1
-        self.isSelect = self.isSelect - 1;
         console.log(self.selectArr);
       }
     },
@@ -361,15 +355,32 @@ export default {
       self.isGocar = true;
       self.isShowDetails = false;
       self.isShowKinds = false;
-      // var selectFood = JSON.stringify(selectArr);
-      // window.sessionStorage.setItem("isSelect", selectFood);
-      // window.sessionStorage.getItem("isSelect");
     },
-    check() {
+    check(idx) {
       var self = this;
+      self.selectArr[idx].isBorder = !self.selectArr[idx].isBorder;
+      if (self.selectArr[idx].isBorder) {
+        self.isSelect++;
+      } else {
+        self.isSelect--;
+      }
     },
     remove() {
       var self = this;
+      var newArr = [];
+      // console.log(newArr)
+      self.selectArr.forEach(item => {
+        if (!item.isBorder) {
+          newArr = newArr.concat(item);
+        }
+      });
+      self.selectArr = newArr;
+      self.isSelect = 0;
+    },
+    goSelect() {
+      var self = this;
+      self.isGocar = false;
+      self.isShowKinds = true;
     }
   },
   //监听滚动距离实现出现计算器
@@ -400,7 +411,7 @@ input {
 
 .switch-box-wrapper {
   width: 3.752rem;
-  height: 11.926rem;
+  // height: 11.926rem;
 
   .select {
     width: 3.752rem;
@@ -440,7 +451,8 @@ input {
 
   .switch-content {
     width: 3.752rem;
-    height: 11.41rem;
+    margin-bottom: 0.54rem;
+    // height: 11.41rem;
     .product-sort {
       // position:relative;
       width: 3.35rem;
@@ -496,13 +508,12 @@ input {
       position: absolute;
       top: 7.58rem;
       left: 0rem;
-      width: 3.352rem;
-      // height: 18.554rem;
+      width: 3.752rem;
+      margin-bottom: 0.53rem;
       padding-top: 0.3rem;
       border-top: 0.01rem solid #484848;
-      margin: 0 0.2rem;
-      // display:none;
       .return {
+        margin-left: 0.3rem;
         display: inline-block;
         width: 0.74rem;
         height: 0.248rem;
@@ -521,17 +532,21 @@ input {
         }
       }
       .goods-list {
-        width: 3.352rem;
-        // height: 17.696rem;
+        width: 3.752rem;
+        background: #333;
+        height: 100%;
         ul {
-          width: 3.352rem;
-          // height: 17.696rem;
+          background: #333;
+          width: 100%;
+          height: 100%;
           li {
             float: left;
             width: 1.676rem;
-            height: 2.228rem;
+            height: 50%;
+            background: #333;
             padding-right: 0.1rem;
             margin-bottom: 0.3rem;
+            margin-left: 0.16rem;
             a {
               display: block;
               float: right;
@@ -795,7 +810,7 @@ li {
   position: relative;
   margin-top: 0.54rem;
   width: 3.752rem;
-  height: 25.7007rem;
+  // height: 25.7007rem;
   background: #333;
   .article-cover {
     width: 3.752rem;
